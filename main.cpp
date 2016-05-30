@@ -19,6 +19,8 @@ SDL_Surface  * surface  = nullptr;
 SDL_Renderer * renderer = nullptr;
 bool running = true;
 vector<Drawable *> drawables;
+vector<Updatable *> updatables;
+Uint32 millis = 0;
 
 static int millis_per_update = 1000 / 60;
 static Cover * cover = nullptr;
@@ -27,7 +29,7 @@ static Disk  * disk  = nullptr;
 void init();
 void loop();
 void shutdown();
-void update();
+void update(int deltaMillis);
 void draw();
 bool process_event_queue();
 
@@ -69,16 +71,13 @@ void init() {
 
 	draw();
 
-	cover->prob = 0.005;
+	cover->prob = 0.008;
 
 	disk = new Disk();
 	disk->prob = 1.0;
 	disk->setHue(180);
 	drawables.push_back(disk);
-
-	draw();
-
-	drawables.pop_back();
+	updatables.push_back(disk);
 }
 
 /*
@@ -89,11 +88,11 @@ void init() {
 */
 void loop() {
 	while (running) {
-		Uint32 start_time = SDL_GetTicks();
+		millis = SDL_GetTicks();
 		if (!process_event_queue()) break;
-		update();
+		update(millis_per_update);
 		draw();
-		Uint32 elapsed_time = SDL_GetTicks() - start_time;
+		Uint32 elapsed_time = SDL_GetTicks() - millis;
 		if (elapsed_time < millis_per_update) {
 			SDL_Delay(millis_per_update - elapsed_time);
 		} else {
@@ -102,7 +101,10 @@ void loop() {
 	}
 }
 
-void update() {
+void update(int deltaMillis) {
+	for (int i = 0; i < updatables.size(); ++i) {
+		updatables[i]->update(deltaMillis);
+	}
 }
 
 void draw() {
@@ -117,28 +119,6 @@ void draw() {
 		fatal(SDL_GetError());
 	}
 }
-
-
-/***************
-
-
-// p: density as a probability
-void drawDisk(double x, double y, double radius, char r, char g, char b, double p) {
-	for (int i = 0; i < surface->w; ++i) {
-		for (int j = 0; j < surface->h; ++j) {
-			double dist = sqrt((surface->w * x - i) * (surface->w * x - i) + (surface->h * y - j) * (surface->h * y - j));
-			double prob = 0;
-			double radiusInPixels = radius * surface->w;
-			if (dist < radiusInPixels) prob = (radiusInPixels - dist) / radiusInPixels * p;
-			if (Util::randomBool(prob)) {
-				SDL_SetRenderDrawColor(renderer, r, g, b, 255);
-				SDL_RenderDrawPoint(renderer, i, j);
-			}
-		}
-	}
-}
-
-****************/
 
 bool process_event_queue() {
 	SDL_Event e;
