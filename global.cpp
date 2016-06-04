@@ -1,4 +1,5 @@
 #include <cassert>
+#include <iostream>
 #include "global.h"
 
 void fatal(const char * fmt, ...) {
@@ -15,25 +16,3 @@ void fatal(const char * fmt, ...) {
 void log(const char * msg) {
 	std::cout << msg << std::endl;
 }
-
-void create_renderer() {
-	surface = SDL_GetWindowSurface(window);
-	if (!surface) fatal(SDL_GetError());
-	renderer = SDL_CreateSoftwareRenderer(surface);
-	if (!renderer) fatal(SDL_GetError());
-}
-
-void toggle_fullscreen() {
-	bool fullscreen = SDL_GetWindowFlags(window) & SDL_WINDOW_FULLSCREEN_DESKTOP;
-	if (fullscreen) {
-		if (SDL_SetWindowFullscreen(window, 0)) {
-			fatal(SDL_GetError());
-		}
-	} else {
-		if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP)) {
-			fatal(SDL_GetError());
-		}
-	}
-	create_renderer();
-}
-
