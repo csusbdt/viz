@@ -4,8 +4,7 @@
 
 class Cover : public Drawable {
 	public:
-		Cover() : prob(1) {}
+		Cover() : Drawable(1) {}
 		virtual bool draw(int i, int j) const;
-		double prob;
 };
 

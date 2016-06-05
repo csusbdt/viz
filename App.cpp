@@ -45,9 +45,9 @@ void App::init() {
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
 	SDL_RenderClear(renderer);
 
-	cover.prob = 1.0;
+	cover.setP(1.0);
 	draw();
-	cover->prob = 0.008;
+	cover.setP(0.008);
 
 	scene = new StartScene();
 	scene->start();
@@ -64,16 +64,16 @@ void App::loop() {
 		millis = SDL_GetTicks();
 		if (!processEventQueue()) break;
 		update(millisPerUpdate);
-		Uint32 elapsed_time = SDL_GetTicks() - millis;
-		if (elapsed_time < millis_per_update) {
-			SDL_Delay(millis_per_update - elapsed_time);
+		Uint32 elapsedTime = SDL_GetTicks() - millis;
+		if (elapsedTime < millisPerUpdate) {
+			SDL_Delay(millisPerUpdate - elapsedTime);
 		} else {
 			SDL_Delay(1);
 		}
 	}
 }
 
-void App::update(int deltaMillis) {
+void App::update(Uint32 deltaMillis) {
 	scene->update(deltaMillis);
 	for (int i = 0; i < updatables.size(); ++i) {
 		updatables[i]->update(deltaMillis);
@@ -81,10 +81,35 @@ void App::update(int deltaMillis) {
 	draw();
 }
 
+void App::draw(int i, int j, char r, char g, char b) const {
+	SDL_SetRenderDrawColor(renderer, r, g, b, 255);
+	SDL_RenderDrawPoint(renderer, i, j);
+}
+
+int App::dPixels(double d) const {
+	return surface->h * d;
+}
+
+int App::xPixels(double x) const {
+	return surface->w * x;
+}
+
+int App::yPixels(double y) const {
+	return surface->h * y;
+}
+
+void App::addDrawable(Drawable * drawable) {
+	drawables.push_back(drawable);
+}
+
+void App::addUpdatable(Updatable * updatable) {
+	updatables.push_back(updatable);
+}
+
 void App::draw() {
-	if (!cover.draw()) {
-		for (int i = 0; i < surface->w; ++i) {
-			for (int j = 0; j < surface->h; ++j) {
+	for (int i = 0; i < surface->w; ++i) {
+		for (int j = 0; j < surface->h; ++j) {
+			if (!cover.draw(i, j)) {
 				for (int k = 0; k < drawables.size(); ++k) {
 					if (drawables[k]->draw(i, j)) break;
 				}
@@ -106,7 +131,7 @@ bool App::processEventQueue() {
 			return false;
 		} else return scene->processEventQueue(&e);
 	}
-	//return true;
+	return true;
 }
 
 void App::shutdown() {

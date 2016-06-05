@@ -1,16 +1,19 @@
 #include "Disk.h"
 #include "Util.h"
+#include "App.h"
 #include "global.h"
 #include <cmath>
 
+Disk::Disk(double p, double radius, double x, double y, char r, char g, char b) 
+: Drawable(p), radius(radius), x(x), y(y), r(r), g(g), b(b), xPixel(0), yPixel(0) {
+}
+
 bool Disk::draw(int i, int j) const {
-	double dist = sqrt((surface->w * x - i) * (surface->w * x - i) + (surface->h * y - j) * (surface->h * y - j));
-	double p = 0;
-	double radiusInPixels = radius * surface->h;
-	if (dist < radiusInPixels) p = (radiusInPixels - dist) / radiusInPixels * prob;
-	if (Util::randomBool(p)) {
-		SDL_SetRenderDrawColor(renderer, r, g, b, 255);
-		SDL_RenderDrawPoint(renderer, i, j);
+	double dist = sqrt((xPixel - i) * (xPixel - i) + (yPixel - j) * (yPixel - j));
+	double prob = 0;
+	if (dist < radiusPixel) prob = (radiusPixel - dist) / radiusPixel * p;
+	if (Util::randomBool(prob)) {
+		app.draw(i, j, r, g, b);
 		return true;
 	} else {
 		return false;
@@ -18,9 +21,12 @@ bool Disk::draw(int i, int j) const {
 }
 
 void Disk::update(int deltaMillis) {
-	double period = 5 * 1000;
-	prob = (sin(millis * 2 * 3.14159 / period) + 1) * .5 * .02;
-	radius = (sin(millis * 2 * 3.14159 / period) + 1) * .5 * .5;
+	const double period = 5 * 1000;
+	p = (sin(app.millis * 2 * 3.14159 / period) + 1) * .5 * .02;
+	radius = (sin(app.millis * 2 * 3.14159 / period) + 1) * .5 * .5;
+	xPixel = app.xPixels(x);
+	yPixel = app.yPixels(y);
+	radiusPixel = app.dPixels(radius);
 }
 
 void Disk::setHue(int hue) {

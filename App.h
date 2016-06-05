@@ -1,4 +1,4 @@
-#progam once
+#pragma once
 
 /*
 This program avoids double buffering; there is only one drawing surface.
@@ -7,18 +7,27 @@ Distances are given as percentages of window height.
 */
 
 #include <vector>
+#include "SDL.h"
 #include "Cover.h"
 #include "Scene.h"
-#include "Drawables.h"
-#include "Updatables.h"
+#include "Drawable.h"
+#include "Updatable.h"
+
+using namespace std;
 
 class App {
 	public:
 		App();
 		void run();
+		int dPixels(double d) const;  // arg d (for distance) is percent of screen height
+		int xPixels(double x) const;  // arg y is percent of screen width
+		int yPixels(double y) const;  // arg x is percent of screen height
+		void draw(int i, int j, char r, char g, char b) const;
+		void addDrawable(Drawable * drawable);
+		void addUpdatable(Updatable * updatable);
 
 		Cover cover;
-		Uint32 millis;
+		Uint32 millis;  // Total elapsed time in millis.
 
 	private:
 		void init();
