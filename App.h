@@ -34,6 +34,7 @@ class App {
 		void loop();
 		void shutdown();
 		void draw();
+		void clearScreen();
 		void update(Uint32 deltaMillis);
 		bool processEventQueue();
 		void toggleFullscreen();
@@ -44,6 +45,7 @@ class App {
 
 		bool                running;
 		Uint32              millisPerUpdate;
+		int                 maxJump;
 		SDL_DisplayMode     display;
 		SDL_Window *        window;
 		SDL_Surface *       surface;

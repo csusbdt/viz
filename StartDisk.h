@@ -3,21 +3,20 @@
 #include "Drawable.h"
 #include "Updatable.h"
 
-class Disk : public Drawable, public Updatable {
+class StartDisk : public Drawable, public Updatable {
 	public:
-		Disk();
-		//Disk(double p, double radius, double x, double y, char r, char g, char b);
+		StartDisk();
 		virtual bool draw(int i, int j) const;
 		virtual void update(int deltaMillis);
+	//private:
 		void setHue(int hue);
-
 		double radius;
 		double x;
 		double y;
+		double dy;
 		char r;
 		char g;
 		char b;
-	private:
 		int xPixel;
 		int yPixel;
 		int radiusPixel;

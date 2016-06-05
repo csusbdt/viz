@@ -16,3 +16,4 @@ void fatal(const char * fmt, ...) {
 void log(const char * msg) {
 	std::cout << msg << std::endl;
 }
+

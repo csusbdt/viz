@@ -1,6 +1,8 @@
+#include <iostream>
 #include "SDL.h"
 #include "global.h"
 #include "App.h"
+#include "Util.h"
 #include "StartScene.h"
 
 using namespace std;
@@ -8,6 +10,7 @@ using namespace std;
 App::App() : 
 	running(true), 
 	millisPerUpdate(1000/60.0),
+	maxJump(40),
 	window(nullptr),
 	surface(nullptr),
 	renderer(nullptr),
@@ -21,6 +24,7 @@ void App::run() {
 }
 
 void App::init() {
+	srand(time(0));
 	if (SDL_Init(SDL_INIT_TIMER | SDL_INIT_AUDIO | SDL_INIT_VIDEO | SDL_INIT_EVENTS)) {
 		fatal(SDL_GetError());
 	}
@@ -42,12 +46,10 @@ void App::init() {
 
 	createRenderer();
 
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-	SDL_RenderClear(renderer);
+//	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+//	SDL_RenderClear(renderer);
 
-	cover.setP(1.0);
-	draw();
-	cover.setP(0.008);
+	clearScreen();
 
 	scene = new StartScene();
 	scene->start();
@@ -60,14 +62,18 @@ void App::init() {
 	millisPerUpdate.
 */
 void App::loop() {
+	Uint32 previousMillis = millis;
 	while (running) {
+		previousMillis = millis;
 		millis = SDL_GetTicks();
+		Uint32 elapsedTime = millis - previousMillis;
 		if (!processEventQueue()) break;
-		update(millisPerUpdate);
-		Uint32 elapsedTime = SDL_GetTicks() - millis;
+		update(elapsedTime);
 		if (elapsedTime < millisPerUpdate) {
 			SDL_Delay(millisPerUpdate - elapsedTime);
+			if (maxJump > 4) --maxJump;
 		} else {
+			if (maxJump < 5000) ++maxJump;
 			SDL_Delay(1);
 		}
 	}
@@ -79,6 +85,34 @@ void App::update(Uint32 deltaMillis) {
 		updatables[i]->update(deltaMillis);
 	}
 	draw();
+}
+
+void App::clearScreen() {
+	cover.setP(1.0);
+	for (int i = 0; i < surface->w; ++i) {
+		for (int j = 0; j < surface->h; ++j) {
+			cover.draw(i, j);
+		}
+	}
+	cover.setP(0.10);
+}
+
+void App::draw() {
+	int n = 0;
+	int max = surface->w * surface->h;
+	while (n < max) {
+		int i = n / surface->h;
+		int j = n - i * surface->h;
+		if (!cover.draw(i, j)) {
+			for (int k = 0; k < drawables.size(); ++k) {
+				if (drawables[k]->draw(i, j)) break;
+			}
+		}
+		n += Util::randomInt(1, maxJump);
+	}
+	if(SDL_UpdateWindowSurface(window) != 0) {
+		fatal(SDL_GetError());
+	}
 }
 
 void App::draw(int i, int j, char r, char g, char b) const {
@@ -106,30 +140,18 @@ void App::addUpdatable(Updatable * updatable) {
 	updatables.push_back(updatable);
 }
 
-void App::draw() {
-	for (int i = 0; i < surface->w; ++i) {
-		for (int j = 0; j < surface->h; ++j) {
-			if (!cover.draw(i, j)) {
-				for (int k = 0; k < drawables.size(); ++k) {
-					if (drawables[k]->draw(i, j)) break;
-				}
-			}
-		}
-	}
-	if(SDL_UpdateWindowSurface(window) != 0) {
-		fatal(SDL_GetError());
-	}
-}
-
 bool App::processEventQueue() {
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
-		if (e.type == SDL_KEYDOWN) {
-			if (e.key.keysym.sym == SDLK_ESCAPE) return false;
-			else if (e.key.keysym.sym == SDLK_f) toggleFullscreen(); 
-		} else if (e.type == SDL_QUIT) {
+		if (e.type == SDL_QUIT) {
 			return false;
-		} else return scene->processEventQueue(&e);
+		} else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE) {
+			return false;
+		} else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_f) {
+			toggleFullscreen();
+		} else {
+			return scene->processEventQueue(&e);
+		}
 	}
 	return true;
 }
@@ -166,5 +188,6 @@ void App::toggleFullscreen() {
 		}
 	}
 	createRenderer();
+	clearScreen();
 }
 

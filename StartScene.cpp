@@ -1,23 +1,28 @@
 #include "SDL.h"
 #include "global.h"
 #include "StartScene.h"
-#include "Disk.h"
+#include "StartDisk.h"
 #include "App.h"
 
 using namespace std;
 
-StartScene::StartScene() 
-: disk(1, .2, .5, .5, 0, 0, 0) {
+StartScene::StartScene() { 
+	disks.push_back(StartDisk());
+	disks.push_back(StartDisk());
+	disks.push_back(StartDisk());
+	disks.push_back(StartDisk());
+	disks.push_back(StartDisk());
+	disks.push_back(StartDisk());
 }
 
 StartScene::~StartScene() {
 }
 
 void StartScene::start() {
-	disk.setP(1.0);
-	disk.setHue(180);
-	app.addDrawable(&disk);
-	app.addUpdatable(&disk);
+	for (int i = 0; i < disks.size(); ++i) {
+		app.addDrawable(&disks[i]);
+		app.addUpdatable(&disks[i]);
+	}
 }
 
 void StartScene::stop() {
@@ -32,5 +37,8 @@ bool StartScene::processEventQueue(SDL_Event * e) {
 }
 
 void StartScene::update(Uint32 deltaMillis) {
+//	for (int i = 0; i < disks.size(); ++i) {
+//		disks[i].update(deltaMillis);
+//	}
 }
 

@@ -1,7 +1,10 @@
 #pragma once
 
 #include "Scene.h"
-#include "Disk.h"
+#include "StartDisk.h"
+#include <vector>
+
+using namespace std;
 
 class StartScene : public Scene {
 	public:
@@ -12,6 +15,6 @@ class StartScene : public Scene {
 		virtual void update(Uint32 dt);
                 virtual bool processEventQueue(SDL_Event * e);
 	private:
-		Disk disk;
+		vector<StartDisk> disks;
 };
 
