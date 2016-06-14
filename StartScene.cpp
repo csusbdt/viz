@@ -3,6 +3,7 @@
 #include "StartScene.h"
 #include "StartDisk.h"
 #include "App.h"
+#include "BreathScene.h"
 
 using namespace std;
 
@@ -26,19 +27,23 @@ void StartScene::start() {
 }
 
 void StartScene::stop() {
+	app.clearDrawables();
+	app.clearUpdatables();
 }
 
 bool StartScene::processEventQueue(SDL_Event * e) {
 	if (e->type == SDL_KEYDOWN) {
 		if (e->key.keysym.sym == SDLK_a) log("a pressed");
 		else if (e->key.keysym.sym == SDLK_w) log("w pressed"); 
+		else if (e->key.keysym.sym == SDLK_n) {
+			this->stop();
+			breathScene->start();
+			app.scene = breathScene;
+		}
 	}
 	return true;
 }
 
 void StartScene::update(Uint32 deltaMillis) {
-//	for (int i = 0; i < disks.size(); ++i) {
-//		disks[i].update(deltaMillis);
-//	}
 }
 

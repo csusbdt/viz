@@ -4,6 +4,7 @@
 #include "App.h"
 #include "Util.h"
 #include "StartScene.h"
+#include "BreathScene.h"
 
 using namespace std;
 
@@ -46,12 +47,12 @@ void App::init() {
 
 	createRenderer();
 
-//	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-//	SDL_RenderClear(renderer);
-
 	clearScreen();
 
-	scene = new StartScene();
+	startScene = new StartScene();
+	breathScene = new BreathScene();
+
+	scene = startScene;
 	scene->start();
 }
 

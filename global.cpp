@@ -2,6 +2,9 @@
 #include <iostream>
 #include "global.h"
 
+StartScene * startScene = 0;
+BreathScene * breathScene = 0;
+
 void fatal(const char * fmt, ...) {
 	va_list v;
 	char buf[1024];

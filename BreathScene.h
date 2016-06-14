@@ -1,24 +1,22 @@
 #pragma once
 
 #include "Scene.h"
-#include "StartDisk.h"
-#include "BreathScene.h"
-#include <vector>
+#include "BreathDisk.h"
 
 using namespace std;
 
-class StartScene : public Scene {
+class BreathScene : public Scene {
 	public:
-		StartScene();
-		virtual ~StartScene();
+		BreathScene();
+		virtual ~BreathScene();
                 virtual void start();
                 virtual void stop();
 		virtual void update(Uint32 dt);
                 virtual bool processEventQueue(SDL_Event * e);
 
-		static StartScene instance;
+		static BreathScene instance;
 
 	private:
-		vector<StartDisk> disks;
+		BreathDisk disk;
 };
 

@@ -25,9 +25,12 @@ class App {
 		void draw(int i, int j, char r, char g, char b) const;
 		void addDrawable(Drawable * drawable);
 		void addUpdatable(Updatable * updatable);
+		void clearDrawables() { drawables.clear(); }
+		void clearUpdatables() { updatables.clear(); }
 
 		Cover cover;
 		Uint32 millis;  // Total elapsed time in millis.
+		Scene * scene;
 
 	private:
 		void init();
@@ -50,6 +53,5 @@ class App {
 		SDL_Window *        window;
 		SDL_Surface *       surface;
 		SDL_Renderer *      renderer;
-		Scene *             scene;
 };
 
