@@ -20,15 +20,15 @@ StartScene::~StartScene() {
 }
 
 void StartScene::start() {
+	app.cover.setP(.1);
+	app.addDrawable(&app.cover);
 	for (int i = 0; i < disks.size(); ++i) {
 		app.addDrawable(&disks[i]);
-		app.addUpdatable(&disks[i]);
 	}
 }
 
 void StartScene::stop() {
 	app.clearDrawables();
-	app.clearUpdatables();
 }
 
 bool StartScene::processEventQueue(SDL_Event * e) {
@@ -45,5 +45,8 @@ bool StartScene::processEventQueue(SDL_Event * e) {
 }
 
 void StartScene::update(Uint32 deltaMillis) {
+	for (int i = 0; i < disks.size(); ++i) {
+		disks[i].update(deltaMillis);
+	}
 }
 

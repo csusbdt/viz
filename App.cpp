@@ -70,6 +70,7 @@ void App::loop() {
 		Uint32 elapsedTime = millis - previousMillis;
 		if (!processEventQueue()) break;
 		update(elapsedTime);
+		draw();
 		if (elapsedTime < millisPerUpdate) {
 			SDL_Delay(millisPerUpdate - elapsedTime);
 			if (maxJump > 4) --maxJump;
@@ -82,34 +83,29 @@ void App::loop() {
 
 void App::update(Uint32 deltaMillis) {
 	scene->update(deltaMillis);
-	for (int i = 0; i < updatables.size(); ++i) {
-		updatables[i]->update(deltaMillis);
-	}
-	draw();
 }
 
 void App::clearScreen() {
+	double saveP = cover.getP();
 	cover.setP(1.0);
 	for (int i = 0; i < surface->w; ++i) {
 		for (int j = 0; j < surface->h; ++j) {
 			cover.draw(i, j);
 		}
 	}
-	cover.setP(0.10);
+	cover.setP(saveP);
 }
 
 void App::draw() {
-	int n = 0;
+	int n = -1;
 	int max = surface->w * surface->h;
 	while (n < max) {
+		n += Util::randomInt(1, maxJump);
 		int i = n / surface->h;
 		int j = n - i * surface->h;
-		if (!cover.draw(i, j)) {
-			for (int k = 0; k < drawables.size(); ++k) {
-				if (drawables[k]->draw(i, j)) break;
-			}
+		for (int k = 0; k < drawables.size(); ++k) {
+			if (drawables[k]->draw(i, j)) break;
 		}
-		n += Util::randomInt(1, maxJump);
 	}
 	if(SDL_UpdateWindowSurface(window) != 0) {
 		fatal(SDL_GetError());
@@ -137,10 +133,6 @@ void App::addDrawable(Drawable * drawable) {
 	drawables.push_back(drawable);
 }
 
-void App::addUpdatable(Updatable * updatable) {
-	updatables.push_back(updatable);
-}
-
 bool App::processEventQueue() {
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
@@ -166,8 +158,7 @@ void App::shutdown() {
 void App::createRenderer() {
 	if (renderer) {
 		SDL_DestroyRenderer(renderer);
-		// Not sure if need to destroy window surface.
-		// SDL_DestroySurface(surface);
+		SDL_FreeSurface(surface);
 		renderer = nullptr;
 		surface  = nullptr;
 	}

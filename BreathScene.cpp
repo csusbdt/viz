@@ -14,12 +14,10 @@ BreathScene::~BreathScene() {
 
 void BreathScene::start() {
 	app.addDrawable(&disk);
-	app.addUpdatable(&disk);
 }
 
 void BreathScene::stop() {
 	app.clearDrawables();
-	app.clearUpdatables();
 }
 
 bool BreathScene::processEventQueue(SDL_Event * e) {
@@ -35,5 +33,6 @@ bool BreathScene::processEventQueue(SDL_Event * e) {
 }
 
 void BreathScene::update(Uint32 deltaMillis) {
+	disk.update(deltaMillis);
 }
 
