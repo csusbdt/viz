@@ -180,6 +180,8 @@ void App::toggleFullscreen() {
 		}
 	}
 	createRenderer();
+	scene->stop();
+	scene->start();
 	clearScreen();
 }
 
