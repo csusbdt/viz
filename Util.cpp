@@ -12,7 +12,7 @@ double Util::randomDouble(double a, double b) {
 }
 
 bool Util::randomBool(double p) {
-        return rand() / (double) RAND_MAX < p;
+        return (rand() / (double) RAND_MAX) < p;
 }
 
 char Util::doubleToChar(double x) {

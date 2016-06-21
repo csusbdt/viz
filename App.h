@@ -11,6 +11,8 @@ Distances are given as percentages of window height.
 #include "Cover.h"
 #include "Scene.h"
 #include "Drawable.h"
+#include "StartScene.h"
+#include "BreathScene.h"
 
 using namespace std;
 
@@ -26,9 +28,11 @@ class App {
 		void addDrawable(Drawable * drawable);
 		void clearDrawables() { drawables.clear(); }
 
-		Cover cover;
 		Uint32 millis;  // Total elapsed time in millis.
 		Scene * scene;
+		Cover cover;
+		StartScene startScene;
+		BreathScene breathScene;
 
 	private:
 		void init();

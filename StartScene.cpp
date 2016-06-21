@@ -4,6 +4,7 @@
 #include "StartDisk.h"
 #include "App.h"
 #include "BreathScene.h"
+#include <iostream>
 
 using namespace std;
 
@@ -20,7 +21,7 @@ StartScene::~StartScene() {
 }
 
 void StartScene::start() {
-	app.cover.setP(.1);
+	app.cover.setP(0.1);
 	app.addDrawable(&app.cover);
 	for (int i = 0; i < disks.size(); ++i) {
 		app.addDrawable(&disks[i]);
@@ -36,9 +37,9 @@ bool StartScene::processEventQueue(SDL_Event * e) {
 		if (e->key.keysym.sym == SDLK_a) log("a pressed");
 		else if (e->key.keysym.sym == SDLK_w) log("w pressed"); 
 		else if (e->key.keysym.sym == SDLK_n) {
-			this->stop();
-			breathScene->start();
-			app.scene = breathScene;
+			stop();
+			app.breathScene.start();
+			app.scene = &app.breathScene;
 		}
 	}
 	return true;

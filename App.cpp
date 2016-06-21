@@ -3,8 +3,6 @@
 #include "global.h"
 #include "App.h"
 #include "Util.h"
-#include "StartScene.h"
-#include "BreathScene.h"
 
 using namespace std;
 
@@ -47,13 +45,9 @@ void App::init() {
 
 	createRenderer();
 
-	clearScreen();
-
-	startScene = new StartScene();
-	breathScene = new BreathScene();
-
-	scene = startScene;
+	scene = &startScene;
 	scene->start();
+	clearScreen();
 }
 
 /*
@@ -64,18 +58,19 @@ void App::init() {
 */
 void App::loop() {
 	Uint32 previousMillis = millis;
+	SDL_Delay(millisPerUpdate);
 	while (running) {
+		if (!processEventQueue()) break;
+		update(millisPerUpdate);
+		draw();
 		previousMillis = millis;
 		millis = SDL_GetTicks();
 		Uint32 elapsedTime = millis - previousMillis;
-		if (!processEventQueue()) break;
-		update(elapsedTime);
-		draw();
 		if (elapsedTime < millisPerUpdate) {
 			SDL_Delay(millisPerUpdate - elapsedTime);
 			if (maxJump > 4) --maxJump;
 		} else {
-			if (maxJump < 5000) ++maxJump;
+			if (maxJump < 80) ++maxJump;
 			SDL_Delay(1);
 		}
 	}
@@ -97,15 +92,15 @@ void App::clearScreen() {
 }
 
 void App::draw() {
-	int n = -1;
+	int n = 0;
 	int max = surface->w * surface->h;
 	while (n < max) {
-		n += Util::randomInt(1, maxJump);
 		int i = n / surface->h;
 		int j = n - i * surface->h;
 		for (int k = 0; k < drawables.size(); ++k) {
 			if (drawables[k]->draw(i, j)) break;
 		}
+		n += Util::randomInt(1, maxJump);
 	}
 	if(SDL_UpdateWindowSurface(window) != 0) {
 		fatal(SDL_GetError());

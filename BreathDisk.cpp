@@ -6,8 +6,6 @@
 
 BreathDisk::BreathDisk() 
 : Drawable(1), radius(.5), x(.5), y(.5), r(255), g(255), b(255), dy(0), xPixel(0), yPixel(0), elapsedMillis(0) {
-	xPixel = app.xPixels(x);
-	yPixel = app.yPixels(y);
 	setHue(30);
 	p = 0.10;
 }
@@ -26,6 +24,8 @@ bool BreathDisk::draw(int i, int j) const {
 
 void BreathDisk::update(int deltaMillis) {
 	elapsedMillis += deltaMillis;
+	xPixel = app.xPixels(x);
+	yPixel = app.yPixels(y);
 	radius = .2 + .1 * sin(elapsedMillis / 1000.0 * 2 * 3.14159 / 10);
 	radiusPixel = app.dPixels(radius);
 }
