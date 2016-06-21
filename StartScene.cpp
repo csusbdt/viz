@@ -21,9 +21,10 @@ StartScene::~StartScene() {
 }
 
 void StartScene::start() {
-	app.cover.setP(0.1);
+	app.cover.setP(0.15);
 	app.addDrawable(&app.cover);
 	for (int i = 0; i < disks.size(); ++i) {
+		disks[i].reset();
 		app.addDrawable(&disks[i]);
 	}
 }

@@ -9,6 +9,10 @@ StartDisk::StartDisk()
 	setHue(180);
 }
 
+void StartDisk::reset() {
+	y = 2;
+}
+
 bool StartDisk::draw(int i, int j) const {
 	double dist = sqrt((xPixel - i) * (xPixel - i) + (yPixel - j) * (yPixel - j));
 	double prob = 0;

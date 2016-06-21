@@ -8,6 +8,7 @@ class StartDisk : public Drawable, public Updatable {
 		StartDisk();
 		virtual bool draw(int i, int j) const;
 		virtual void update(int deltaMillis);
+		void reset();
 	//private:
 		void setHue(int hue);
 		double radius;
