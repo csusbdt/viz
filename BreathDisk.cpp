@@ -26,7 +26,7 @@ void BreathDisk::update(int deltaMillis) {
 	elapsedMillis += deltaMillis;
 	xPixel = app.xPixels(x);
 	yPixel = app.yPixels(y);
-	radius = .2 + .1 * sin(elapsedMillis / 1000.0 * 2 * 3.14159 / 10);
+	radius = .2 + .2 * sin(elapsedMillis / 1000.0 * 2 * 3.14159 / 10);
 	radiusPixel = app.dPixels(radius);
 }
 
