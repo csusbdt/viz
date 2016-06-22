@@ -45,7 +45,7 @@ void App::init() {
 
 	createRenderer();
 
-	scene = &startScene;
+	scene = &expandingCircleScene;
 	scene->start();
 	clearScreen();
 }
@@ -122,6 +122,10 @@ int App::xPixels(double x) const {
 
 int App::yPixels(double y) const {
 	return surface->h * y;
+}
+
+double App::pixelToY(double d) const {
+	return d / surface->h;
 }
 
 void App::addDrawable(Drawable * drawable) {

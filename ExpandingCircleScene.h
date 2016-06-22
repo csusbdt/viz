@@ -1,20 +1,21 @@
 #pragma once
 
 #include "Scene.h"
-#include "BreathDisk.h"
+#include "ExpandingCircle.h"
+#include <vector>
 
 using namespace std;
 
-class BreathScene : public Scene {
+class ExpandingCircleScene : public Scene {
 	public:
-		BreathScene();
-		virtual ~BreathScene();
+		ExpandingCircleScene();
+		virtual ~ExpandingCircleScene();
                 virtual void start();
                 virtual void stop();
 		virtual void update(Uint32 dt);
                 virtual bool processEventQueue(SDL_Event * e);
 
 	private:
-		BreathDisk disk;
+		vector<ExpandingCircle> circles;
 };
 

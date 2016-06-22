@@ -16,8 +16,6 @@ class StartScene : public Scene {
 		virtual void update(Uint32 dt);
                 virtual bool processEventQueue(SDL_Event * e);
 
-		static StartScene instance;
-
 	private:
 		vector<StartDisk> disks;
 };

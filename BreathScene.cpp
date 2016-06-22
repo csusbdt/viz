@@ -27,8 +27,8 @@ bool BreathScene::processEventQueue(SDL_Event * e) {
 		if (e->key.keysym.sym == SDLK_x) log("x pressed");
 		else if (e->key.keysym.sym == SDLK_n) {
 			stop();
-			app.startScene.start();
-			app.scene = &app.startScene;
+			app.scene = &app.expandingCircleScene;
+			app.scene->start();
 		}
 	}
 	return true;

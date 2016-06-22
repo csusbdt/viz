@@ -13,6 +13,7 @@ Distances are given as percentages of window height.
 #include "Drawable.h"
 #include "StartScene.h"
 #include "BreathScene.h"
+#include "ExpandingCircleScene.h"
 
 using namespace std;
 
@@ -24,15 +25,18 @@ class App {
 		int dPixels(double d) const;  // arg d (for distance) is percent of screen height
 		int xPixels(double x) const;  // arg y is percent of screen width
 		int yPixels(double y) const;  // arg x is percent of screen height
+		double pixelToY(double d) const; // convert distance in pixels to percent of screen height
 		void draw(int i, int j, char r, char g, char b) const;
 		void addDrawable(Drawable * drawable);
 		void clearDrawables() { drawables.clear(); }
 
 		Uint32 millis;  // Total elapsed time in millis.
 		Scene * scene;
+		bool running;
 		Cover cover;
 		StartScene startScene;
 		BreathScene breathScene;
+		ExpandingCircleScene expandingCircleScene;
 
 	private:
 		void init();
@@ -47,7 +51,6 @@ class App {
 
 		vector<Drawable *>  drawables;
 
-		bool                running;
 		Uint32              millisPerUpdate;
 		int                 maxJump;
 		SDL_DisplayMode     display;

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cassert>
 #include "SDL.h"
 #include "App.h"
 #include "StartScene.h"
