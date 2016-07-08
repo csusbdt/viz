@@ -5,7 +5,7 @@
 #include <cmath>
 
 ExpandingCircle::ExpandingCircle() 
-: Drawable(1), radius(0), x(0), y(0), r(255), g(255), b(255), dy(0), xPixel(0), yPixel(0), elapsedMillis(0) {
+: Drawable(1), radius(0), x(0), y(0), r(255), g(255), b(255), dy(0), xPixel(0), yPixel(0), elapsedMillis(0), repetitions(3) {
 	setHue(30);
 	p = 0.30;
 }
@@ -20,6 +20,7 @@ void ExpandingCircle::reset() {
 	radiusPixel = 0;
 	dRadius = Util::randomDouble(0.00005, 0.0005);
 	setHue(Util::randomInt(0, 360));
+	repetitions = Util::randomInt(3, 9);
 }
 
 bool ExpandingCircle::draw(int i, int j) const {
@@ -43,7 +44,13 @@ bool ExpandingCircle::draw(int i, int j) const {
 void ExpandingCircle::update(int deltaMillis) {
 	elapsedMillis += deltaMillis;
 	radius += dRadius * deltaMillis;
-	if (radius > 2) reset();
+	if (radius > 2) {
+		if (--repetitions <= 0) {
+			reset();
+		} else {
+			radius = 0;
+		}
+	} 
 	radiusPixel = app.dPixels(radius);
 }
 

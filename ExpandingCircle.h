@@ -23,6 +23,7 @@ class ExpandingCircle : public Drawable, public Updatable {
 		int yPixel;
 		int radiusPixel;
 		int elapsedMillis;
+		int repetitions;
 };
 
 
