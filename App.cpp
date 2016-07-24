@@ -168,13 +168,15 @@ void App::createRenderer() {
 }
 
 void App::toggleFullscreen() {
-	bool fullscreen = SDL_GetWindowFlags(window) & SDL_WINDOW_FULLSCREEN_DESKTOP;
+	//bool fullscreen = SDL_GetWindowFlags(window) & SDL_WINDOW_FULLSCREEN_DESKTOP;
+	bool fullscreen = SDL_GetWindowFlags(window) & SDL_WINDOW_FULLSCREEN;
 	if (fullscreen) {
 		if (SDL_SetWindowFullscreen(window, 0)) {
 			fatal(SDL_GetError());
 		}
 	} else {
-		if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP)) {
+		//if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN_DESKTOP)) {
+		if (SDL_SetWindowFullscreen(window, SDL_WINDOW_FULLSCREEN)) {
 			fatal(SDL_GetError());
 		}
 	}
