@@ -16,9 +16,9 @@ class ExpandingDisk : public Drawable, public Updatable {
 		double x;
 		double y;
 		double dy;
-		char r;
-		char g;
-		char b;
+		unsigned char r;
+		unsigned char g;
+		unsigned char b;
 		int xPixel;
 		int yPixel;
 		int radiusPixel;

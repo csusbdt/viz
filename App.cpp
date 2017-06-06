@@ -58,6 +58,8 @@ void App::init() {
 */
 void App::loop() {
 	Uint32 previousMillis = millis;
+	bool paused = false;
+	Uint32 pausedMillis = 0; // Take out paused millis.
 	SDL_Delay(millisPerUpdate);
 	while (running) {
 		if (!processEventQueue()) break;

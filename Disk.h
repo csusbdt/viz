@@ -14,9 +14,9 @@ class Disk : public Drawable, public Updatable {
 		double radius;
 		double x;
 		double y;
-		char r;
-		char g;
-		char b;
+		unsigned char r;
+		unsigned char g;
+		unsigned char b;
 	private:
 		int xPixel;
 		int yPixel;
