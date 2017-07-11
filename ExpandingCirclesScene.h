@@ -6,10 +6,10 @@
 
 using namespace std;
 
-class ExpandingCircleScene : public Scene {
+class ExpandingCirclesScene : public Scene {
 	public:
-		ExpandingCircleScene();
-		virtual ~ExpandingCircleScene();
+		ExpandingCirclesScene();
+		virtual ~ExpandingCirclesScene();
                 virtual void start();
                 virtual void stop();
 		virtual void update(Uint32 dt);

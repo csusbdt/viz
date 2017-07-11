@@ -1,14 +1,13 @@
 #include "SDL.h"
 #include "global.h"
 #include "App.h"
-//#include "StartScene.h"
 #include "ExpandingCircle.h"
-#include "ExpandingCircleScene.h"
+#include "ExpandingCirclesScene.h"
 #include <iostream>
 
 using namespace std;
 
-ExpandingCircleScene::ExpandingCircleScene() { 
+ExpandingCirclesScene::ExpandingCirclesScene() { 
 	circles.push_back(ExpandingCircle());
 	circles.push_back(ExpandingCircle());
 	circles.push_back(ExpandingCircle());
@@ -17,10 +16,10 @@ ExpandingCircleScene::ExpandingCircleScene() {
 	circles.push_back(ExpandingCircle());
 }
 
-ExpandingCircleScene::~ExpandingCircleScene() {
+ExpandingCirclesScene::~ExpandingCirclesScene() {
 }
 
-void ExpandingCircleScene::start() {
+void ExpandingCirclesScene::start() {
 	app.cover.setP(0.25);
 	app.addDrawable(&app.cover);
 	for (int i = 0; i < circles.size(); ++i) {
@@ -29,11 +28,11 @@ void ExpandingCircleScene::start() {
 	}
 }
 
-void ExpandingCircleScene::stop() {
+void ExpandingCirclesScene::stop() {
 	app.clearDrawables();
 }
 
-bool ExpandingCircleScene::processEventQueue(SDL_Event * e) {
+bool ExpandingCirclesScene::processEventQueue(SDL_Event * e) {
 	//if (e->type == SDL_KEYDOWN) {
 	//	if (e->key.keysym.sym == SDLK_a) log("a pressed");
 	//	else if (e->key.keysym.sym == SDLK_w) log("w pressed"); 
@@ -46,7 +45,7 @@ bool ExpandingCircleScene::processEventQueue(SDL_Event * e) {
 	return true;
 }
 
-void ExpandingCircleScene::update(Uint32 deltaMillis) {
+void ExpandingCirclesScene::update(Uint32 deltaMillis) {
 	for (int i = 0; i < circles.size(); ++i) {
 		circles[i].update(deltaMillis);
 	}

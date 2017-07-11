@@ -13,7 +13,7 @@ Distances are given as percentages of window height.
 #include "Drawable.h"
 #include "FallingCirclesScene.h"
 #include "BreathScene.h"
-#include "ExpandingCircleScene.h"
+#include "ExpandingCirclesScene.h"
 
 using namespace std;
 
@@ -36,7 +36,7 @@ class App {
 		Cover cover;
 		FallingCirclesScene fallingCirclesScene;
 		BreathScene breathScene;
-		ExpandingCircleScene expandingCirclesScene;
+		ExpandingCirclesScene expandingCirclesScene;
 
 	private:
 		void init();

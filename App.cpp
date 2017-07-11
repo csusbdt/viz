@@ -6,10 +6,12 @@
 
 using namespace std;
 
+#define SCENE_MILLIS 20000
+
 App::App() : 
 	running(true), 
 	millisPerUpdate(1000/60.0),
-	millisToSceneChange(10000),
+	millisToSceneChange(SCENE_MILLIS),
 	maxJump(40),
 	window(nullptr),
 	surface(nullptr),
@@ -82,7 +84,7 @@ void App::loop() {
 void App::update(Uint32 deltaMillis) {
 	millisToSceneChange -= deltaMillis;
 	if (millisToSceneChange <= 0) {
-		millisToSceneChange += 10000;
+		millisToSceneChange += SCENE_MILLIS;
 		scene->stop();
 		if (scene == &fallingCirclesScene) scene = &breathScene;
 		else if (scene == &breathScene) scene = &expandingCirclesScene;
