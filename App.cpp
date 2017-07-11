@@ -6,12 +6,12 @@
 
 using namespace std;
 
-#define SCENE_MILLIS 20000
+#define SCENE_CHANGE_MILLIS 20 * 1000
 
 App::App() : 
 	running(true), 
 	millisPerUpdate(1000/60.0),
-	millisToSceneChange(SCENE_MILLIS),
+	millisToSceneChange(SCENE_CHANGE_MILLIS),
 	maxJump(40),
 	window(nullptr),
 	surface(nullptr),
@@ -70,10 +70,10 @@ void App::loop() {
 		draw();
 		previousMillis = millis;
 		millis = SDL_GetTicks();
-		Uint32 elapsedTime = millis - previousMillis;
-		if (elapsedTime < millisPerUpdate) {
-			SDL_Delay(millisPerUpdate - elapsedTime);
+		Uint32 elapsedMillis = millis - previousMillis;
+		if (elapsedMillis < millisPerUpdate) {
 			if (maxJump > 4) --maxJump;
+			SDL_Delay(millisPerUpdate - elapsedMillis);
 		} else {
 			if (maxJump < 80) ++maxJump;
 			SDL_Delay(1);
@@ -84,7 +84,7 @@ void App::loop() {
 void App::update(Uint32 deltaMillis) {
 	millisToSceneChange -= deltaMillis;
 	if (millisToSceneChange <= 0) {
-		millisToSceneChange += SCENE_MILLIS;
+		millisToSceneChange += SCENE_CHANGE_MILLIS;
 		scene->stop();
 		if (scene == &fallingCirclesScene) scene = &breathScene;
 		else if (scene == &breathScene) scene = &expandingCirclesScene;
