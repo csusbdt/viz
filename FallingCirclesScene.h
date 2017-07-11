@@ -7,10 +7,10 @@
 
 using namespace std;
 
-class StartScene : public Scene {
+class FallingCirclesScene : public Scene {
 	public:
-		StartScene();
-		virtual ~StartScene();
+		FallingCirclesScene();
+		virtual ~FallingCirclesScene();
                 virtual void start();
                 virtual void stop();
 		virtual void update(Uint32 dt);

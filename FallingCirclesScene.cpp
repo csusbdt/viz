@@ -1,6 +1,6 @@
 #include "SDL.h"
 #include "global.h"
-#include "StartScene.h"
+#include "FallingCirclesScene.h"
 #include "StartDisk.h"
 #include "App.h"
 #include "BreathScene.h"
@@ -8,7 +8,7 @@
 
 using namespace std;
 
-StartScene::StartScene() { 
+FallingCirclesScene::FallingCirclesScene() { 
 	disks.push_back(StartDisk());
 	disks.push_back(StartDisk());
 	disks.push_back(StartDisk());
@@ -17,10 +17,10 @@ StartScene::StartScene() {
 	disks.push_back(StartDisk());
 }
 
-StartScene::~StartScene() {
+FallingCirclesScene::~FallingCirclesScene() {
 }
 
-void StartScene::start() {
+void FallingCirclesScene::start() {
 	app.cover.setP(0.15);
 	app.addDrawable(&app.cover);
 	for (int i = 0; i < disks.size(); ++i) {
@@ -29,24 +29,24 @@ void StartScene::start() {
 	}
 }
 
-void StartScene::stop() {
+void FallingCirclesScene::stop() {
 	app.clearDrawables();
 }
 
-bool StartScene::processEventQueue(SDL_Event * e) {
-	if (e->type == SDL_KEYDOWN) {
-		if (e->key.keysym.sym == SDLK_a) log("a pressed");
-		else if (e->key.keysym.sym == SDLK_w) log("w pressed"); 
-		else if (e->key.keysym.sym == SDLK_n) {
-			stop();
-			app.breathScene.start();
-			app.scene = &app.breathScene;
-		}
-	}
+bool FallingCirclesScene::processEventQueue(SDL_Event * e) {
+	//if (e->type == SDL_KEYDOWN) {
+	//	if (e->key.keysym.sym == SDLK_a) log("a pressed");
+	//	else if (e->key.keysym.sym == SDLK_w) log("w pressed"); 
+	//	else if (e->key.keysym.sym == SDLK_n) {
+	//		stop();
+	//		app.breathScene.start();
+	//		app.scene = &app.breathScene;
+	//	}
+	//}
 	return true;
 }
 
-void StartScene::update(Uint32 deltaMillis) {
+void FallingCirclesScene::update(Uint32 deltaMillis) {
 	for (int i = 0; i < disks.size(); ++i) {
 		disks[i].update(deltaMillis);
 	}

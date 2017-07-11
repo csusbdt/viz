@@ -1,7 +1,7 @@
 #include "SDL.h"
 #include "global.h"
 #include "BreathScene.h"
-#include "StartScene.h"
+//#include "StartScene.h"
 #include "App.h"
 
 using namespace std;
@@ -23,14 +23,14 @@ void BreathScene::stop() {
 }
 
 bool BreathScene::processEventQueue(SDL_Event * e) {
-	if (e->type == SDL_KEYDOWN) {
-		if (e->key.keysym.sym == SDLK_x) log("x pressed");
-		else if (e->key.keysym.sym == SDLK_n) {
-			stop();
-			app.scene = &app.expandingCircleScene;
-			app.scene->start();
-		}
-	}
+	//if (e->type == SDL_KEYDOWN) {
+	//	if (e->key.keysym.sym == SDLK_x) log("x pressed");
+	//	else if (e->key.keysym.sym == SDLK_n) {
+	//		stop();
+	//		app.scene = &app.expandingCircleScene;
+	//		app.scene->start();
+	//	}
+	//}
 	return true;
 }
 

@@ -1,7 +1,7 @@
 #include "SDL.h"
 #include "global.h"
 #include "App.h"
-#include "StartScene.h"
+//#include "StartScene.h"
 #include "ExpandingCircle.h"
 #include "ExpandingCircleScene.h"
 #include <iostream>
@@ -34,15 +34,15 @@ void ExpandingCircleScene::stop() {
 }
 
 bool ExpandingCircleScene::processEventQueue(SDL_Event * e) {
-	if (e->type == SDL_KEYDOWN) {
-		if (e->key.keysym.sym == SDLK_a) log("a pressed");
-		else if (e->key.keysym.sym == SDLK_w) log("w pressed"); 
-		else if (e->key.keysym.sym == SDLK_n) {
-			stop();
-			app.startScene.start();
-			app.scene = &app.startScene;
-		}
-	}
+	//if (e->type == SDL_KEYDOWN) {
+	//	if (e->key.keysym.sym == SDLK_a) log("a pressed");
+	//	else if (e->key.keysym.sym == SDLK_w) log("w pressed"); 
+	//	else if (e->key.keysym.sym == SDLK_n) {
+	//		stop();
+	//		app.startScene.start();
+	//		app.scene = &app.startScene;
+	//	}
+	//}
 	return true;
 }
 

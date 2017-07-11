@@ -9,6 +9,7 @@ using namespace std;
 App::App() : 
 	running(true), 
 	millisPerUpdate(1000/60.0),
+	millisToSceneChange(10000),
 	maxJump(40),
 	window(nullptr),
 	surface(nullptr),
@@ -40,12 +41,12 @@ void App::init() {
 		SDL_WINDOWPOS_UNDEFINED, 
 		display.w, 
 		display.h, 
-		0);
+		SDL_WINDOW_FULLSCREEN);
 	if (!window) fatal(SDL_GetError());
 
 	createRenderer();
 
-	scene = &expandingCircleScene;
+	scene = &expandingCirclesScene;
 	scene->start();
 	clearScreen();
 }
@@ -79,6 +80,15 @@ void App::loop() {
 }
 
 void App::update(Uint32 deltaMillis) {
+	millisToSceneChange -= deltaMillis;
+	if (millisToSceneChange <= 0) {
+		millisToSceneChange += 10000;
+		scene->stop();
+		if (scene == &fallingCirclesScene) scene = &breathScene;
+		else if (scene == &breathScene) scene = &expandingCirclesScene;
+		else if (scene == &expandingCirclesScene) scene = &fallingCirclesScene;
+		scene->start();
+	}
 	scene->update(deltaMillis);
 }
 
@@ -141,8 +151,8 @@ bool App::processEventQueue() {
 			return false;
 		} else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_ESCAPE) {
 			return false;
-		} else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_f) {
-			toggleFullscreen();
+		//} else if (e.type == SDL_KEYDOWN && e.key.keysym.sym == SDLK_f) {
+		//	toggleFullscreen();
 		} else {
 			return scene->processEventQueue(&e);
 		}
@@ -170,6 +180,7 @@ void App::createRenderer() {
 }
 
 void App::toggleFullscreen() {
+	assert(false); // this function not called.
 	//bool fullscreen = SDL_GetWindowFlags(window) & SDL_WINDOW_FULLSCREEN_DESKTOP;
 	bool fullscreen = SDL_GetWindowFlags(window) & SDL_WINDOW_FULLSCREEN;
 	if (fullscreen) {

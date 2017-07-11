@@ -11,7 +11,7 @@ Distances are given as percentages of window height.
 #include "Cover.h"
 #include "Scene.h"
 #include "Drawable.h"
-#include "StartScene.h"
+#include "FallingCirclesScene.h"
 #include "BreathScene.h"
 #include "ExpandingCircleScene.h"
 
@@ -34,9 +34,9 @@ class App {
 		Scene * scene;
 		bool running;
 		Cover cover;
-		StartScene startScene;
+		FallingCirclesScene fallingCirclesScene;
 		BreathScene breathScene;
-		ExpandingCircleScene expandingCircleScene;
+		ExpandingCircleScene expandingCirclesScene;
 
 	private:
 		void init();
@@ -53,6 +53,7 @@ class App {
 
 		Uint32              millisPerUpdate;
 		int                 maxJump;
+		int                 millisToSceneChange;
 		SDL_DisplayMode     display;
 		SDL_Window *        window;
 		SDL_Surface *       surface;
